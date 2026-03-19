@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: sboot-data-employe-serice
+logging:
+  level:
+    root: INFO
+    com.example.employeeservice: INFO
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} %-5level [%thread] %logger{36} - %msg%n"
+server:
+  error:
+    include-message: never
