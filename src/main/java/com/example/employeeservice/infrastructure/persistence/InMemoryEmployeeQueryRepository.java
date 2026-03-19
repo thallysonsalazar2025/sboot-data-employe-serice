@@ -21,10 +21,10 @@ public class InMemoryEmployeeQueryRepository implements EmployeeQueryRepository 
     public List<Employee> findByCriteria(EmployeeSearchCriteria criteria) {
         return EMPLOYEES.stream()
                 .filter(employee -> employee.tenantId().equals(criteria.tenantId()))
-                .filter(employee -> criteria.employeeId().map(id -> employee.id().equals(id)).orElse(true))
-                .filter(employee -> criteria.registrationNumber().map(value -> employee.registrationNumber().equals(value)).orElse(true))
-                .filter(employee -> criteria.documentNumber().map(value -> employee.documentNumber().equals(value)).orElse(true))
-                .filter(employee -> criteria.status().map(value -> employee.status() == value).orElse(true))
+                .filter(employee -> criteria.employeeIdOptional().map(id -> employee.id().equals(id)).orElse(true))
+                .filter(employee -> criteria.registrationNumberOptional().map(value -> employee.registrationNumber().equals(value)).orElse(true))
+                .filter(employee -> criteria.documentNumberOptional().map(value -> employee.documentNumber().equals(value)).orElse(true))
+                .filter(employee -> criteria.statusOptional().map(value -> employee.status() == value).orElse(true))
                 .toList();
     }
 }

@@ -64,4 +64,28 @@ class EmployeeQueryControllerIntegrationTest {
                 .andExpect(jsonPath("$.message").value("Validation error"))
                 .andExpect(jsonPath("$.details[0]").value("tenantId: tenantId is required"));
     }
+
+    @Test
+    void shouldReturnBadRequestWhenPayloadIsMalformed() throws Exception {
+        mockMvc.perform(post("/api/v1/employees/search")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{ invalid json"))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message").value("Malformed request payload"));
+    }
+
+    @Test
+    void shouldReturnBadRequestWhenStatusEnumIsInvalid() throws Exception {
+        mockMvc.perform(post("/api/v1/employees/search")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                  "tenantId": "tenant-a",
+                                  "correlationId": "corr-it-4",
+                                  "status": "UNKNOWN"
+                                }
+                                """))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message").value("Malformed request payload"));
+    }
 }

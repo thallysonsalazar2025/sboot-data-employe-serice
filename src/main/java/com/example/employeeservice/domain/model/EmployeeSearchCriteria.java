@@ -11,19 +11,19 @@ public record EmployeeSearchCriteria(
         EmploymentStatus status
 ) {
 
-    public Optional<String> employeeId() {
+    public Optional<String> employeeIdOptional() {
         return Optional.ofNullable(employeeId);
     }
 
-    public Optional<String> registrationNumber() {
+    public Optional<String> registrationNumberOptional() {
         return Optional.ofNullable(registrationNumber);
     }
 
-    public Optional<String> documentNumber() {
+    public Optional<String> documentNumberOptional() {
         return Optional.ofNullable(documentNumber);
     }
 
-    public Optional<EmploymentStatus> status() {
+    public Optional<EmploymentStatus> statusOptional() {
         return Optional.ofNullable(status);
     }
 }
