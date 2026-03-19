@@ -8,16 +8,16 @@ import org.springframework.stereotype.Component;
 public class EmployeeSearchValidator {
 
     public void validate(EmployeeSearchCriteria criteria) {
-        boolean hasFilter = criteria.employeeId().isPresent()
-                || criteria.registrationNumber().isPresent()
-                || criteria.documentNumber().isPresent()
-                || criteria.status().isPresent();
+        boolean hasFilter = criteria.employeeIdOptional().isPresent()
+                || criteria.registrationNumberOptional().isPresent()
+                || criteria.documentNumberOptional().isPresent()
+                || criteria.statusOptional().isPresent();
 
         if (!hasFilter) {
             throw new BusinessValidationException("At least one search filter must be informed");
         }
 
-        criteria.documentNumber()
+        criteria.documentNumberOptional()
                 .filter(document -> !document.matches("\\d{11}|\\d{14}"))
                 .ifPresent(document -> {
                     throw new BusinessValidationException("documentNumber must contain 11 or 14 digits");

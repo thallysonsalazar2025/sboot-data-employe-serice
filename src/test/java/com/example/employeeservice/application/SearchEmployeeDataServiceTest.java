@@ -59,4 +59,16 @@ class SearchEmployeeDataServiceTest {
                 .isInstanceOf(BusinessValidationException.class)
                 .hasMessage("At least one search filter must be informed");
     }
+
+    @Test
+    void shouldReturnEmptyListWhenRepositoryFindsNothing() {
+        var criteria = new EmployeeSearchCriteria("tenant-a", "corr-2", null, "REG-999", null, null);
+        when(repository.findByCriteria(criteria)).thenReturn(List.of());
+
+        var response = service.search(criteria);
+
+        assertThat(response.totalRecords()).isZero();
+        assertThat(response.employees()).isEmpty();
+        verify(repository).findByCriteria(criteria);
+    }
 }
