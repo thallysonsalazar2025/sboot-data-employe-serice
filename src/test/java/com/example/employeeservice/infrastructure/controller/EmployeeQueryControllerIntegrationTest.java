@@ -6,13 +6,19 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.transaction.annotation.Transactional;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest
+@SpringBootTest(properties = {
+        "spring.jpa.defer-datasource-initialization=true",
+        "spring.sql.init.mode=always"
+})
 @AutoConfigureMockMvc
+@Transactional
 class EmployeeQueryControllerIntegrationTest {
 
     @Autowired
@@ -24,16 +30,17 @@ class EmployeeQueryControllerIntegrationTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {
-                                  "tenantId": "tenant-a",
+                                  "tenantId": "46634044000174",
                                   "correlationId": "corr-it-1",
-                                  "registrationNumber": "REG-100"
+                                  "registrationNumber": "REG-001"
                                 }
                                 """))
+                .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.tenantId").value("tenant-a"))
+                .andExpect(jsonPath("$.tenantId").value("46634044000174"))
                 .andExpect(jsonPath("$.correlationId").value("corr-it-1"))
                 .andExpect(jsonPath("$.totalRecords").value(1))
-                .andExpect(jsonPath("$.employees[0].fullName").value("Ana Souza"));
+                .andExpect(jsonPath("$.employees[0].fullName").value("João Silva"));
     }
 
     @Test
@@ -69,7 +76,7 @@ class EmployeeQueryControllerIntegrationTest {
     void shouldReturnBadRequestWhenPayloadIsMalformed() throws Exception {
         mockMvc.perform(post("/api/v1/employees/search")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{ invalid json"))
+                        .content("{ \"invalid\" \"json\""))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message").value("Malformed request payload"));
     }

@@ -47,7 +47,7 @@ class SearchEmployeeDataServiceTest {
         assertThat(response.correlationId()).isEqualTo("corr-1");
         assertThat(response.totalRecords()).isEqualTo(1);
         assertThat(response.employees()).hasSize(1);
-        assertThat(response.employees().getFirst().fullName()).isEqualTo("Ana Souza");
+        assertThat(response.employees().get(0).fullName()).isEqualTo("Ana Souza");
         verify(repository).findByCriteria(criteria);
     }
 

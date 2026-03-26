@@ -1,6 +1,7 @@
 package com.example.employeeservice.infrastructure.controller;
 
 import com.example.employeeservice.domain.port.in.SearchEmployeeDataUseCase;
+import com.example.employeeservice.infrastructure.mapper.EmployeeSearchMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -22,6 +23,9 @@ class EmployeeQueryControllerErrorIntegrationTest {
 
     @MockBean
     private SearchEmployeeDataUseCase searchEmployeeDataUseCase;
+
+    @MockBean
+    private EmployeeSearchMapper employeeSearchMapper;
 
     @Test
     void shouldReturnInternalServerErrorWhenUseCaseThrowsUnexpectedException() throws Exception {
